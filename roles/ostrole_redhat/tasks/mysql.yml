@@ -1,0 +1,11 @@
+---
+ - name: download mysql repo
+   get_url: url=https://repo.mysql.com/mysql57-community-release-el7-11.noarch.rpm dest=/tmp/mysql7.11.rpm
+   tags: mysql
+
+ - name: install mysql repo
+   shell: /bin/rpm -Uvh /tmp/mysql7.11.rpm
+   register: mysql_repo_result
+   failed_when: "'conflict' in mysql_repo_result.stderr"
+   tags: mysql
+

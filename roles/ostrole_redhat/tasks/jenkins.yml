@@ -1,0 +1,16 @@
+---
+ - name: Download Jenkins repo for Rhel/Centos
+   get_url:
+    url: http://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+    mode: 0440
+
+ - name: Import GPG Key for Jenking Repo
+   rpm_key:
+    state: present
+    key: http://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+ - name: Install Dependency for Jenkins
+   yum:
+    name: java-1.8.0-openjdk
+    state: present

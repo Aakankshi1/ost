@@ -1,0 +1,16 @@
+---
+pkgs_list:
+ - ansible
+ - git
+ - docker-ce
+# - chef
+ - jenkins
+# - mysql
+# - mysql-service
+ - grafana
+
+
+pkgs_state: present
+
+
+tools:

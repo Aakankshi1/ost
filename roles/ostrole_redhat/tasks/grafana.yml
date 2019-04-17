@@ -1,0 +1,23 @@
+---
+- name: Install Grafana repository
+  template:
+    src:   Grafana.repo.j2
+    dest:  /etc/yum.repos.d/grafana.repo
+    owner: root
+    group: root
+    mode:  0644
+
+
+
+
+
+
+
+ - name: Install firewalld on RHEL
+   yum: name=firewalld state=present
+
+ - name: Enable Port for Grafana
+   firewalld:
+    port: 3000/tcp
+    permanent: yes
+    state: enabled

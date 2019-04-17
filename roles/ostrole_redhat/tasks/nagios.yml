@@ -1,0 +1,63 @@
+---
+ - name: Install dep for Nagios
+   package: name={{ item }} state=present
+   with_items:
+    - httpd
+    - httpd-tools
+    - php
+    - gcc
+    - glibc
+    - glibc-common
+    - gd
+    - gd-devel
+    - make
+    - net-snmp
+ 
+ - name: Download Packages for Nagios
+   get_url: url={{ item }} dest=/opt/ mode=0770
+   with_items:
+    - https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.3.tar.gz
+    - http://nagios-plugins.org/download/nagios-plugins-2.2.1.tar.gz
+ 
+ - name: Untar Packages
+   unarchive: src={{ item }} dest=/opt/
+   with_items:
+    - nagios-4.4.3.tar.gz
+    - nagios-plugins-2.2.1.tar.gz
+ 
+ - name: Create Users for Nagios
+   user: name=nagios password="Nrpe@pwd7"
+ 
+ - name: Create Group for Nagios
+   group: name=nagcmd state=present
+ 
+ - name: Appending the Groups
+   user: name={{ item }} groups=nagcmd append=yes
+   with_items:
+    - nagios
+    - apache
+ 
+ - name: Prepare make for Nagios Daemon
+   shell: /opt/nagios-4.4.3/./configure --with-command-group=nagcmd
+ 
+ - name: Make the lib
+   make:  chdir=/opt/nagios-4.4.3 target={{ item }}
+   with_items:
+    - all
+    - install-init
+    - install-daemoninit
+    - install-config
+    - install-commandmode
+    - install-exfoliation
+    - install-webconf
+ 
+ - name: Prepare make for Nagios Plugin
+   shell: "{{ item }}"
+   with_items:
+    - /opt/nagios-plugins-2.2.1/./configure --with-nagios-user=nagios --with-nagios-group=nagios
+ 
+ - name: Lib for Plugin
+   make:  chdir=/opt/nagios-plugins-2.2.1 target=none
+ 
+ - name: Make the lib for Plugin
+   make:  chdir=/opt/nagios-plugins-2.2.1 target=install

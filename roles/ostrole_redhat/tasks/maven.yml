@@ -1,0 +1,28 @@
+---
+ - name: Download Maven
+   get_url: url=http://www-us.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz dest=/usr/local/src
+
+ - name: UnArchive_Maven
+   unarchive:
+    src: /usr/local/src/apache-maven-3.5.4-bin.tar.gz
+    dest: /usr/local/src/
+    remote_src: yes
+
+ - name: Move Maven File Content
+   command: mv /usr/local/src/apache-maven-3.5.4/ /usr/local/src/apache-maven/
+
+ - name: Appending_profile
+   blockinfile:
+    path: /etc/profile.d/maven.sh
+    state: present
+    create: yes
+    mode: 0777
+    block: |
+      # Apache Maven Environment Variables
+      # MAVEN_HOME for Maven 1 - M2_HOME for Maven 2
+      export M2_HOME=/usr/local/src/apache-maven
+      export PATH=${M2_HOME}/bin:${PATH}
+   become: yes
+
+ - name: Configure_Maven
+   shell: source /etc/profile.d/maven.sh

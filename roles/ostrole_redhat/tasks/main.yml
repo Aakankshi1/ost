@@ -1,0 +1,6 @@
+---
+ - name: Prepare Tool Setup
+   include: pre_req.yml
+
+ - name: Tools Installation Begins
+   include: {{ tools }}.yml
