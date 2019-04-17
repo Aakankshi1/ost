@@ -1,0 +1,4 @@
+---
+ - name: Install GIT
+   package: name=git state={{ pkgs_state }} update_cache=yes
+~

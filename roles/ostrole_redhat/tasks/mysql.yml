@@ -9,3 +9,15 @@
    failed_when: "'conflict' in mysql_repo_result.stderr"
    tags: mysql
 
+ - name: Install MYSQL
+   package: name={{ item }} state={{ pkgs_state }} update_cache=yes
+   with_items:
+    - mysql
+    - mysql-service
+
+ - name: enable mysql
+   service:
+     name: mysqld
+     state: started
+     enabled: yes
+   become: yes

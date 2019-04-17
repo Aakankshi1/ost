@@ -8,9 +8,16 @@
     mode:  0644
 
 
+ - name: Install
+   package: name= state={{ pkgs_state }} update_cache=yes
 
 
-
+ - name: enable_Grafana
+   service:
+     name: grafana-server
+     state: started
+     enabled: yes
+   become: yes
 
 
  - name: Install firewalld on RHEL

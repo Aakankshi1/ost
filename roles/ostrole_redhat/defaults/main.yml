@@ -12,5 +12,3 @@ pkgs_list:
 
 pkgs_state: present
 
-
-tools:

@@ -9,7 +9,7 @@
     - glibc
     - glibc-common
     - gd
-    - gd-devel
+    - http://mirror.centos.org/centos/7/os/x86_64/Packages/gd-devel-2.0.35-26.el7.x86_64.rpm 
     - make
     - net-snmp
  
